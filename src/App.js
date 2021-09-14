@@ -5,6 +5,7 @@ import { Home } from './pages/Home';
 import { About } from './pages/About';
 import { Articles } from './pages/Articles';
 import CounterButton from './pages/CounterButton';
+import { CounterProvider } from './pages/CounterProvider';
 
 const BigGreenHeading = styled.h1`
   color: green;
@@ -13,7 +14,7 @@ const BigGreenHeading = styled.h1`
 
 const App = () => {
   return (
-    <>
+    <CounterProvider>
       <BigGreenHeading>Server-Side Rendering Example</BigGreenHeading>
       <ul>
         <li>
@@ -43,7 +44,7 @@ const App = () => {
           <CounterButton />
         </Route>
       </Switch>
-    </>
+    </CounterProvider>
   );
 };
 
