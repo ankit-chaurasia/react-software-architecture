@@ -8,8 +8,10 @@ import styled from 'styled-components';
 import CounterButton from './CounterButton';
 // import { CounterProvider } from './pages/CounterProvider';
 // import { DisplayCount } from './DisplayCount';
-import { Provider } from 'react-redux';
-import { store } from './store';
+// import { Provider } from 'react-redux';
+// import { store } from './store';
+import { Counter } from './Counter';
+const counter = new Counter();
 
 const BigGreenHeading = styled.h1`
   color: green;
@@ -55,10 +57,14 @@ const App = () => {
     //   <CounterButton />
     //   <CounterButton />
     // </RecoilRoot>
-    <Provider store={store}>
+    // <Provider store={store}>
+    //   <h1>State Management Example</h1>
+    //   <CounterButton />
+    // </Provider>
+    <>
       <h1>State Management Example</h1>
-      <CounterButton />
-    </Provider>
+      <CounterButton counter={counter} />
+    </>
   );
 };
 

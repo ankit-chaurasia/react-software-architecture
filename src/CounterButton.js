@@ -4,11 +4,12 @@ import { useContext, useState } from 'react';
 // import { counterState } from './counterState';
 // import { incrementByState } from './incrementByState';
 // import { numberOfClicksSelector } from './numberOfClicksSelector';
-import { useSelector, useDispatch } from 'react-redux';
-import { getNumberOfClicks } from './selectors';
-import { counterButtonClicked } from './actions';
+// import { useSelector, useDispatch } from 'react-redux';
+// import { getNumberOfClicks } from './selectors';
+// import { counterButtonClicked } from './actions';
+import { observer } from 'mobx-react-lite';
 
-const CounterButton = () => {
+const CounterButton = observer(({ counter }) => {
   // const { numberOfClicks, increment } = useContext(CounterContext);
   const [incrementBy, setIncrementBy] = useState(1);
   // const [ numberOfClicks, setNumberOfClicks ] = useRecoilState(counterState);
@@ -17,12 +18,13 @@ const CounterButton = () => {
   // const [clicksData, setClicksData] = useRecoilState(counterState)
   // const [incrementBy, setIncrementBy] = useRecoilState(incrementByState);
 
-  const numberOfClicks = useSelector(getNumberOfClicks);
-  const dispatch = useDispatch();
+  // const numberOfClicks = useSelector(getNumberOfClicks);
+  // const dispatch = useDispatch();
 
   return (
     <div>
-      <p>You have clicked the button {numberOfClicks} times.</p>
+      {/* <p>You have clicked the button {numberOfClicks} times.</p> */}
+      <p>You have clicked the button {counter.numberOfClicks} times.</p>
       <label>
         Increment By:
         <input
@@ -45,11 +47,12 @@ const CounterButton = () => {
       >
         Click
       </button> */}
-      <button onClick={() => dispatch(counterButtonClicked(incrementBy))}>
+      {/* <button onClick={() => dispatch(counterButtonClicked(incrementBy))}>
         Click
-      </button>
+      </button> */}
+      <button onClick={() => counter.increment(incrementBy)}>Click</button>
     </div>
   );
-};
+});
 
 export default CounterButton;
