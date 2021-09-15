@@ -1,18 +1,24 @@
-// import { useContext, useState } from 'react';
+import { useContext, useState } from 'react';
 // import { CounterContext } from './CounterContext';
-import { useRecoilState, useRecoilValue } from 'recoil';
-import { counterState } from './counterState';
-import { incrementByState } from './incrementByState';
-import { numberOfClicksSelector } from './numberOfClicksSelector';
+// import { useRecoilState, useRecoilValue } from 'recoil';
+// import { counterState } from './counterState';
+// import { incrementByState } from './incrementByState';
+// import { numberOfClicksSelector } from './numberOfClicksSelector';
+import { useSelector, useDispatch } from 'react-redux';
+import { getNumberOfClicks } from './selectors';
+import { counterButtonClicked } from './actions';
 
 const CounterButton = () => {
   // const { numberOfClicks, increment } = useContext(CounterContext);
-  // const [incrementBy, setIncrementBy] = useState(1);
+  const [incrementBy, setIncrementBy] = useState(1);
   // const [ numberOfClicks, setNumberOfClicks ] = useRecoilState(counterState);
   // const [clicksData, setClicksData] = useRecoilState(counterState);
-  const numberOfClicks = useRecoilValue(numberOfClicksSelector);
-  const [clicksData, setClicksData] = useRecoilState(counterState)
-  const [incrementBy, setIncrementBy] = useRecoilState(incrementByState);
+  // const numberOfClicks = useRecoilValue(numberOfClicksSelector);
+  // const [clicksData, setClicksData] = useRecoilState(counterState)
+  // const [incrementBy, setIncrementBy] = useRecoilState(incrementByState);
+
+  const numberOfClicks = useSelector(getNumberOfClicks);
+  const dispatch = useDispatch();
 
   return (
     <div>
@@ -26,7 +32,7 @@ const CounterButton = () => {
         />
       </label>
       {/* <button onClick={() => setNumberOfClicks(numberOfClicks + incrementBy)}>Click</button> */}
-      <button
+      {/* <button
         onClick={() =>
           setClicksData([
             ...clicksData,
@@ -37,6 +43,9 @@ const CounterButton = () => {
           ])
         }
       >
+        Click
+      </button> */}
+      <button onClick={() => dispatch(counterButtonClicked(incrementBy))}>
         Click
       </button>
     </div>

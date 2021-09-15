@@ -1,13 +1,15 @@
 import React from 'react';
-import { Switch, Route, Link } from 'react-router-dom';
-import { RecoilRoot } from 'recoil';
+// import { Switch, Route, Link } from 'react-router-dom';
+// import { RecoilRoot } from 'recoil';
 import styled from 'styled-components';
-import { Home } from './pages/Home';
-import { About } from './pages/About';
-import { Articles } from './pages/Articles';
+// import { Home } from './pages/Home';
+// import { About } from './pages/About';
+// import { Articles } from './pages/Articles';
 import CounterButton from './CounterButton';
-import { CounterProvider } from './pages/CounterProvider';
-import { DisplayCount } from './DisplayCount';
+// import { CounterProvider } from './pages/CounterProvider';
+// import { DisplayCount } from './DisplayCount';
+import { Provider } from 'react-redux';
+import { store } from './store';
 
 const BigGreenHeading = styled.h1`
   color: green;
@@ -47,12 +49,16 @@ const App = () => {
     //     </Route>
     //   </Switch>
     // </CounterProvider>
-    <RecoilRoot>
-      <DisplayCount />
+    // <RecoilRoot>
+    //   <DisplayCount />
+    //   <h1>State Management Example</h1>
+    //   <CounterButton />
+    //   <CounterButton />
+    // </RecoilRoot>
+    <Provider store={store}>
       <h1>State Management Example</h1>
       <CounterButton />
-      <CounterButton />
-    </RecoilRoot>
+    </Provider>
   );
 };
 
