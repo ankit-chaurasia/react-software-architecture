@@ -1,3 +1,4 @@
+import 'isomorphic-fetch';
 import express from 'express';
 import React from 'react';
 import { ServerStyleSheet } from 'styled-components';
@@ -6,27 +7,66 @@ import { StaticRouter } from 'react-router-dom';
 import App from './src/App';
 import path from 'path';
 import fs from 'fs';
+import { InitialDataContext } from './src/initialDataContext';
+
+global.window = {};
 
 const app = express();
 
 app.use(express.static('./build', { index: false }));
 
-app.get('/*', (req, res) => {
+const articles = [
+  { title: 'Article 1', author: 'Bob 1' },
+  { title: 'Article 2', author: 'Bob 2' },
+  { title: 'Article 3', author: 'Bob 3' },
+  { title: 'Article 4', author: 'Bob 4' },
+  { title: 'Article 5', author: 'Bob 5' },
+];
+app.get('/api/articles', (req, res) => {
+  const loadedArticles = articles;
+  res.json(loadedArticles);
+});
+
+app.get('/*', async (req, res) => {
   const sheet = new ServerStyleSheet();
-  const reactApp = renderToString(
+  const contextObj = { _isServerSide: true, _requests: [], _data: {} };
+  renderToString(
     sheet.collectStyles(
-      <StaticRouter location={req.url}>
-        <App />
-      </StaticRouter>,
+      <InitialDataContext.Provider value={contextObj}>
+        <StaticRouter location={req.url}>
+          <App />
+        </StaticRouter>
+      </InitialDataContext.Provider>,
     ),
   );
+
+  await Promise.all(contextObj._requests);
+  contextObj._isServerSide = false;
+  delete contextObj._requests;
+
+  const reactApp = renderToString(
+    <InitialDataContext.Provider value={contextObj}>
+      <StaticRouter location={req.url}>
+        <App />
+      </StaticRouter>
+    </InitialDataContext.Provider>,
+  );
+
   const templateFile = path.resolve('./build/index.html');
   fs.readFile(templateFile, 'utf8', (err, data) => {
     if (err) {
       return res.status(500).send(err);
     }
+    const loadedArticles = articles;
     return res.send(
-      data.replace('<div id="root"></div>', `<div id="root">${reactApp}</div>`).replace("{{ styles }}", sheet.getStyleTags()),
+      data
+        .replace(
+          '<div id="root"></div>',
+          `<script>window.preloadedData = ${JSON.stringify(
+            contextObj,
+          )}</script><div id="root">${reactApp}</div>`,
+        )
+        .replace('{{ styles }}', sheet.getStyleTags()),
     );
   });
 });

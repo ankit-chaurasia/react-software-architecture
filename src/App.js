@@ -1,10 +1,10 @@
 import React from 'react';
-// import { Switch, Route, Link } from 'react-router-dom';
+import { Switch, Route, Link } from 'react-router-dom';
 // import { RecoilRoot } from 'recoil';
 import styled from 'styled-components';
-// import { Home } from './pages/Home';
-// import { About } from './pages/About';
-// import { Articles } from './pages/Articles';
+import { Home } from './pages/Home';
+import { About } from './pages/About';
+import { Articles } from './pages/Articles';
 import CounterButton from './CounterButton';
 // import { CounterProvider } from './pages/CounterProvider';
 // import { DisplayCount } from './DisplayCount';
@@ -20,6 +20,37 @@ const BigGreenHeading = styled.h1`
 
 const App = () => {
   return (
+    <>
+      <BigGreenHeading>Server-Side Rendering Example</BigGreenHeading>
+      <ul>
+        <li>
+          <Link to="/">Home</Link>
+        </li>
+        <li>
+          <Link to="/about">About</Link>
+        </li>
+        <li>
+          <Link to="/articles">Articles</Link>
+        </li>
+        <li>
+          <Link to="/counterButton">Counter Button</Link>
+        </li>
+      </ul>
+      <Switch>
+        <Route path="/" exact>
+          <Home />
+        </Route>
+        <Route path="/about">
+          <About />
+        </Route>
+        <Route path="/articles">
+          <Articles />
+        </Route>
+        <Route path="/counterButton">
+          <CounterButton />
+        </Route>
+      </Switch>
+    </>
     // <CounterProvider>
     //   <BigGreenHeading>Server-Side Rendering Example</BigGreenHeading>
     //   <ul>
@@ -61,10 +92,10 @@ const App = () => {
     //   <h1>State Management Example</h1>
     //   <CounterButton />
     // </Provider>
-    <>
-      <h1>State Management Example</h1>
-      <CounterButton counter={counter} />
-    </>
+    // <>
+    //   <h1>State Management Example</h1>
+    //   <CounterButton counter={counter} />
+    // </>
   );
 };
 

@@ -4,13 +4,18 @@ import { BrowserRouter } from 'react-router-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { InitialDataContext } from './initialDataContext';
 
 // Takes pre rendered html from server and react to it. so that it can acts when data changes
 ReactDOM.hydrate(
   <React.StrictMode>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
+    <InitialDataContext.Provider
+      value={(window && window.preloadedData) || { _data: {} }}
+    >
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </InitialDataContext.Provider>
   </React.StrictMode>,
   document.getElementById('root'),
 );
