@@ -1,16 +1,21 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import { Switch, Route, Link } from 'react-router-dom';
 // import { RecoilRoot } from 'recoil';
 import styled from 'styled-components';
-import { Home } from './pages/Home';
-import { About } from './pages/About';
-import { Articles } from './pages/Articles';
+// import { Home } from './pages/Home';
+// import { About } from './pages/About';
+// import { Articles } from './pages/Articles';
 import CounterButton from './CounterButton';
 // import { CounterProvider } from './pages/CounterProvider';
 // import { DisplayCount } from './DisplayCount';
 // import { Provider } from 'react-redux';
 // import { store } from './store';
 import { Counter } from './Counter';
+
+const Home = lazy(() => import('./pages/Home'));
+const About = lazy(() => import('./pages/About'));
+const Articles = lazy(() => import('./pages/Articles'));
+
 const counter = new Counter();
 
 const BigGreenHeading = styled.h1`
@@ -36,20 +41,22 @@ const App = () => {
           <Link to="/counterButton">Counter Button</Link>
         </li>
       </ul>
-      <Switch>
-        <Route path="/" exact>
-          <Home />
-        </Route>
-        <Route path="/about">
-          <About />
-        </Route>
-        <Route path="/articles">
-          <Articles />
-        </Route>
-        <Route path="/counterButton">
-          <CounterButton />
-        </Route>
-      </Switch>
+      <Suspense fallback={<p>Loading...</p>}>
+        <Switch>
+          <Route path="/" exact>
+            <Home />
+          </Route>
+          <Route path="/about">
+            <About />
+          </Route>
+          <Route path="/articles">
+            <Articles />
+          </Route>
+          <Route path="/counterButton">
+            <CounterButton />
+          </Route>
+        </Switch>
+      </Suspense>
     </>
     // <CounterProvider>
     //   <BigGreenHeading>Server-Side Rendering Example</BigGreenHeading>
